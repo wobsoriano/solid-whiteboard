@@ -1,4 +1,4 @@
-import { Accessor, Component, createSignal, Match, Switch } from 'solid-js'
+import { Accessor, Component, createSignal, Show, Match, Switch } from 'solid-js'
 import { createTheme } from '../ThemeProvider'
 import PenSettings from './PenSettings'
 
@@ -66,7 +66,9 @@ const Menu: Component<Props> = (props) => {
                     </svg>            
                 </button>
             </div>
-            { isOpen() && <PenSettings /> }
+            <Show when={isOpen()}>
+                <PenSettings />
+            </Show>
         </div>
     </div>
   );
