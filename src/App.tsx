@@ -12,6 +12,7 @@ const App: Component = () => {
     handlePointerDown,
     handlePointerMove,
     handlePointerUp,
+    handlePointerEnter,
     handlePointerLeave,
     handleReset,
     handleRedo,
@@ -39,7 +40,7 @@ const App: Component = () => {
       class={styles.drawableSvg}
       onPointerUp={handlePointerUp}
       onPointerDown={handlePointerDown}
-      onPointerEnter={handlePointerDown}
+      onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
       onPointerMove={handlePointerMove}>
           <g stroke={color()} fill={color()}>
