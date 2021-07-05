@@ -3,10 +3,15 @@ import { createWhiteboard } from '../WhiteboardProvider'
 
 import style from './PenOptions.module.css'
 
+type RangeEvent = InputEvent & {
+    currentTarget: HTMLInputElement;
+    target: Element;
+}
+
 const PenOptions: Component = () => {
     const { options, setOptions } = createWhiteboard()
 
-    const handleChange = (e: InputEvent) => {
+    const handleChange = (e: RangeEvent) => {
         setOptions((prev) => ({
             ...prev,
             [e.target.id]: e.target.value
