@@ -13,11 +13,10 @@ interface Props {
 const Menu: Component<Props> = (props) => {
   const [, { toggle }] = createTheme()
   const [isOpen, setIsOpen] = createSignal(false)
-  const { isDrawing } = createSettings()
 
   return (
     <div class="flex items-start justify-end w-full z-10 absolute mt-2 pointer-events-none">
-        <div class={`mr-2 ${isDrawing() ? 'pointer-events-none' : 'pointer-events-auto'}`}>
+        <div class={`mr-2 ${props.isDrawing() ? 'pointer-events-none' : 'pointer-events-auto'}`}>
             <div class="bg-white space-x-1 dark:bg-gray-600 shadow rounded p-1">
                 {/* TODO: Add shapes */}
                 {/* <button class="btn">
