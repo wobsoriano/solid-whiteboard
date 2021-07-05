@@ -12,6 +12,7 @@ const App: Component = () => {
     handlePointerDown,
     handlePointerMove,
     handlePointerUp,
+    handlePointerLeave,
     handleReset,
     handleRedo,
     handleUndo,
@@ -21,6 +22,10 @@ const App: Component = () => {
   const [theme] = createTheme()
   const color = createMemo(() => theme() === 'dark' ? '#FFF' : '#000')
   const { isDrawing } = createSettings()
+
+  const handlePointerTest = () => {
+    console.log(1)
+  }
 
   return (
     <>
@@ -34,6 +39,8 @@ const App: Component = () => {
       class={styles.drawableSvg}
       onPointerUp={handlePointerUp}
       onPointerDown={handlePointerDown}
+      onPointerEnter={handlePointerDown}
+      onPointerLeave={handlePointerLeave}
       onPointerMove={handlePointerMove}>
           <g stroke={color()} fill={color()}>
               <For each={paths()}>

@@ -61,6 +61,11 @@ export function createWhiteboard() {
         setHistoryStep((prev) => prev + 1)
     }
 
+    const handlePointerLeave = (e: PointerEvent) => {
+        if (!isDrawing()) return
+        handlePointerUp(e)
+    }
+
     const handleUndo = () => {
         if (historyStep() === 0) return
         setHistoryStep((prev) => prev - 1)
@@ -96,6 +101,7 @@ export function createWhiteboard() {
         handlePointerDown,
         handlePointerMove,
         handlePointerUp,
+        handlePointerLeave,
         handleUndo,
         handleRedo,
         handleReset,
