@@ -86,10 +86,13 @@ export function createWhiteboard() {
         setPoints(next)
     }
 
-    const handleReset = () => {
-        setHistory([initialPointsData])
-        setHistoryStep(0)
-        setPoints(history()[0])
+    const handleReset = async () => {
+        const result = await window.confirm('Are you sure?')
+        if (result) {
+            setHistory([initialPointsData])
+            setHistoryStep(0)
+            setPoints(history()[0])
+        }
     }
 
     const paths = createMemo(() => {
