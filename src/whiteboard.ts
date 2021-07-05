@@ -1,48 +1,33 @@
-import getStroke from "perfect-freehand";
-import { Accessor, createContext, createMemo, createSignal, useContext } from "solid-js";
-import { getSvgPathFromStroke } from "./utils";
+import { createSignal, createMemo } from 'solid-js'
+import getStroke from 'perfect-freehand'
+import { createSettings } from './SettingsProvider'
 
 const initialPointsData = {
     allPoints: [],
     currentPoints: null
 }
 
-const defaultOptions = {
-    size: 16,
-    thinning: 0.75,
-    smoothing: 0.5,
-    streamline: 0.5
+function getSvgPathFromStroke(stroke: number[][]) {
+    if (!stroke.length) return ""
+    
+    const d = stroke.reduce(
+      (acc, [x0, y0], i, arr) => {
+        const [x1, y1] = arr[(i + 1) % arr.length]
+        acc.push(x0, y0, (x0 + x1) / 2, (y0 + y1) / 2)
+        return acc
+      },
+      ["M", ...stroke[0], "Q"]
+    )
+  
+    d.push("Z")
+    return d.join(" ")
 }
 
-type Options = typeof defaultOptions
-
-type WhiteboardContextValue = {
-    isDrawing: Accessor<boolean>
-    options: Accessor<{
-        size: number
-        thinning: number
-        smoothing: number
-        streamline: number
-    }>
-    setOptions: (v: Options | ((prev: Options) => Options)) => Options
-    handlePointerMove: (e: PointerEvent) => void
-    handlePointerUp: (e: PointerEvent) => void
-    handlePointerDown: (e: PointerEvent) => void
-    handleUndo: () => void
-    handleRedo: () => void
-    handleReset: () => void
-    paths: Accessor<string[]>
-    currentPath: Accessor<string>
-}
-
-const WhiteboardContext = createContext<WhiteboardContextValue>()
-
-export const WhiteboardProvider = (props) => {
+export function createWhiteboard() {
     const [history, setHistory] = createSignal([initialPointsData])
     const [historyStep, setHistoryStep] = createSignal(0)
-    const [isDrawing, setIsDrawing] = createSignal(false)
     const [points, setPoints] = createSignal(history()[0])
-    const [options, setOptions] = createSignal(defaultOptions)
+    const { setIsDrawing, isDrawing, settings } = createSettings()
 
     const handlePointerDown = (e: PointerEvent) => {
         e.preventDefault()
@@ -98,32 +83,23 @@ export const WhiteboardProvider = (props) => {
 
     const paths = createMemo(() => {
         return points().allPoints.map((point) => {
-            return getSvgPathFromStroke(getStroke(point, options()))
+            return getSvgPathFromStroke(getStroke(point, settings()))
         })
     })
 
     const currentPath = createMemo(() => {
         if (!points().currentPoints) return null
-        return getSvgPathFromStroke(getStroke(points().currentPoints, options()))
+        return getSvgPathFromStroke(getStroke(points().currentPoints, settings()))
     })
 
-    const store: WhiteboardContextValue = {
-        isDrawing,
-        options,
-        setOptions,
+    return {
+        handlePointerDown,
         handlePointerMove,
         handlePointerUp,
-        handlePointerDown,
         handleUndo,
         handleRedo,
         handleReset,
         paths,
         currentPath
     }
-
-    return <WhiteboardContext.Provider value={store}>{props.children}</WhiteboardContext.Provider>
-}
-
-export const createWhiteboard = () => {
-    return useContext(WhiteboardContext)
 }

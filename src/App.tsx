@@ -1,17 +1,48 @@
-import { Component } from "solid-js";
+import { Component, createMemo, For } from 'solid-js'
+
 import Menu from './components/Menu'
-import Whiteboard from './components/Whiteboard'
-import { ThemeProvider } from "./ThemeProvider";
-import { WhiteboardProvider } from "./WhiteboardProvider";
+import { createSettings } from './SettingsProvider'
+import { createTheme } from './ThemeProvider'
+import { createWhiteboard } from './whiteboard'
+
+import styles from './App.module.css'
 
 const App: Component = () => {
+  const {
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerUp,
+    handleReset,
+    handleRedo,
+    handleUndo,
+    paths,
+    currentPath
+  } = createWhiteboard()
+  const [theme] = createTheme()
+  const color = createMemo(() => theme() === 'dark' ? '#FFF' : '#000')
+  const { isDrawing } = createSettings()
+
   return (
-    <ThemeProvider>
-      <WhiteboardProvider>
-        <Menu />
-        <Whiteboard />
-      </WhiteboardProvider>
-    </ThemeProvider>
+    <>
+      <Menu
+        handleRedo={handleRedo}
+        handleReset={handleReset}
+        handleUndo={handleUndo}
+        isDrawing={isDrawing}
+      />
+      <svg
+      class={styles.drawableSvg}
+      onPointerUp={handlePointerUp}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}>
+          <g stroke={color()} fill={color()}>
+              <For each={paths()}>
+                  {path => <path d={path} />}
+              </For>
+              {currentPath() && <path d={currentPath()} />}
+          </g>
+      </svg>
+    </>
   );
 };
 

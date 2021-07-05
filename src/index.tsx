@@ -1,6 +1,15 @@
-import { render } from "solid-js/web";
+import { render } from 'solid-js/web'
 
-import "./index.css";
-import App from "./App";
+import App from './App'
+import { ThemeProvider } from './ThemeProvider'
+import { SettingsProvider } from './SettingsProvider'
 
-render(() => <App />, document.getElementById("root"));
+import './index.css'
+
+render(() => (
+    <ThemeProvider>
+        <SettingsProvider>
+            <App />
+        </SettingsProvider>
+    </ThemeProvider>
+), document.getElementById("root"));

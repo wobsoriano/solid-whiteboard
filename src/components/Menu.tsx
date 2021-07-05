@@ -1,12 +1,19 @@
-import { Component, createSignal } from 'solid-js'
+import { Accessor, Component, createSignal } from 'solid-js'
+import { createSettings } from '../SettingsProvider';
 import { createTheme } from '../ThemeProvider'
-import { createWhiteboard } from '../WhiteboardProvider'
-import PenOptions from './PenOptions'
+import PenSettings from './PenSettings'
 
-const Menu: Component = () => {
+interface Props {
+    handleUndo: () => void
+    handleRedo: () => void
+    handleReset: () => void
+    isDrawing: Accessor<boolean>
+}
+
+const Menu: Component<Props> = (props) => {
   const [, { toggle }] = createTheme()
-  const { handleUndo, handleRedo, handleReset, isDrawing } = createWhiteboard()
   const [isOpen, setIsOpen] = createSignal(false)
+  const { isDrawing } = createSettings()
 
   return (
     <div class="flex items-start justify-end w-full z-10 absolute mt-2 pointer-events-none">
@@ -28,17 +35,17 @@ const Menu: Component = () => {
                         <circle cx="12" cy="12" r="10"></circle>
                     </svg> 
                 </button> */}
-                <button class="btn" onClick={handleUndo}>
+                <button class="btn" onClick={props.handleUndo}>
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6 4H8V6.55709C9.19001 5.622 10.6906 5.0643 12.3214 5.0643C16.1874 5.0643 19.3214 8.19831 19.3214 12.0643C19.3214 15.9303 16.1874 19.0643 12.3214 19.0643C10.171 19.0643 8.24696 18.0946 6.96289 16.5685L8.58221 15.3837C9.49811 16.4147 10.8339 17.0643 12.3214 17.0643C15.0829 17.0643 17.3214 14.8257 17.3214 12.0643C17.3214 9.30288 15.0829 7.0643 12.3214 7.0643C11.2346 7.0643 10.2288 7.41107 9.4085 8L12 8V10H6V4Z"></path>
                     </svg> 
                 </button>
-                <button class="btn" onClick={handleRedo}>
+                <button class="btn" onClick={props.handleRedo}>
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18.0011 4H16.0011V6.55709C14.8111 5.622 13.3105 5.0643 11.6797 5.0643C7.81369 5.0643 4.67969 8.19831 4.67969 12.0643C4.67969 15.9303 7.81369 19.0643 11.6797 19.0643C13.8302 19.0643 15.7542 18.0946 17.0382 16.5685L15.4189 15.3837C14.503 16.4147 13.1672 17.0643 11.6797 17.0643C8.91826 17.0643 6.67969 14.8257 6.67969 12.0643C6.67969 9.30288 8.91826 7.0643 11.6797 7.0643C12.7665 7.0643 13.7724 7.41107 14.5926 8L12.0011 8V10H18.0011V4Z"></path>
                     </svg>            
                 </button> 
-                <button class="btn" onClick={handleReset}>
+                <button class="btn" onClick={props.handleReset}>
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17 22H7C5.89543 22 5 21.1046 5 20V7H3V5H7V4C7 2.89543 7.89543 2 9 2H15C16.1046 2 17 2.89543 17 4V5H21V7H19V20C19 21.1046 18.1046 22 17 22ZM7 7V20H17V7H7ZM9 4V5H15V4H9ZM15 18H13V9H15V18ZM11 18H9V9H11V18Z"></path>
                     </svg>            
@@ -54,7 +61,7 @@ const Menu: Component = () => {
                     </svg>            
                 </button>
             </div>
-            { isOpen() && <PenOptions /> }
+            { isOpen() && <PenSettings /> }
         </div>
     </div>
   );
