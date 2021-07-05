@@ -10,9 +10,9 @@ const initialPointsData = {
 }
 
 export function createWhiteboard() {
-    const [history, setHistory] = createSignal([getInitialData<typeof initialPointsData>('points', initialPointsData)])
-    const [historyStep, setHistoryStep] = createSignal(0)
-    const [points, setPoints] = createSignal(history()[0])
+    let history = [getInitialData<typeof initialPointsData>('points', initialPointsData)]
+    let historyStep = 0
+    const [points, setPoints] = createSignal(history[0])
     const { setIsDrawing, isDrawing, settings } = createSettings()
 
     createEffect(() => {
@@ -47,8 +47,8 @@ export function createWhiteboard() {
             currentPoints: null
         }
         setPoints(newEntry)
-        setHistory(prev => [...prev, newEntry])
-        setHistoryStep((prev) => prev + 1)
+        history = [...history, newEntry]
+        historyStep += 1
     }
 
     const handlePointerEnter = (e: PointerEvent) => {
@@ -63,25 +63,25 @@ export function createWhiteboard() {
     }
 
     const handleUndo = () => {
-        if (historyStep() === 0) return
-        setHistoryStep((prev) => prev - 1)
-        const previous = history()[historyStep()]
+        if (historyStep === 0) return
+        historyStep -= 1
+        const previous = history[historyStep]
         setPoints(previous)
     }
     
     const handleRedo = () => {
-        if (historyStep() === history().length - 1) return
-        setHistoryStep((prev) => prev + 1)
-        const next = history()[historyStep()]
+        if (historyStep === history.length - 1) return
+        historyStep += 1
+        const next = history[historyStep]
         setPoints(next)
     }
 
     const handleReset = async () => {
         const result = await window.confirm('Are you sure?')
         if (result) {
-            setHistory([initialPointsData])
-            setHistoryStep(0)
-            setPoints(history()[0])
+            history = [initialPointsData]
+            historyStep = 0
+            setPoints(history[0])
         }
     }
 
