@@ -24,10 +24,6 @@ const App: Component = () => {
   const color = createMemo(() => theme() === 'dark' ? '#FFF' : '#000')
   const { isDrawing } = createSettings()
 
-  const handlePointerTest = () => {
-    console.log(1)
-  }
-
   return (
     <>
       <Menu
