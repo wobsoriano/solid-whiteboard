@@ -2,29 +2,15 @@ import { createSignal, createMemo, createEffect } from 'solid-js'
 import getStroke from 'perfect-freehand'
 
 import { createSettings } from './SettingsProvider'
-import { getSvgPathFromStroke } from './utils'
+import { getInitialData, getSvgPathFromStroke } from './utils'
 
 const initialPointsData = {
     allPoints: [] as [number, number, number][][],
     currentPoints: null as [number, number, number][] | null
 }
 
-function getInitialPointsData(): typeof initialPointsData {
-    const pointsStorage = localStorage.getItem('points')
-
-    if (pointsStorage) {
-        try {
-            return JSON.parse(pointsStorage)
-        } catch (e) {
-            return initialPointsData
-        }
-    }
-
-    return initialPointsData
-}
-
 export function createWhiteboard() {
-    const [history, setHistory] = createSignal([getInitialPointsData()])
+    const [history, setHistory] = createSignal([getInitialData<typeof initialPointsData>('points', initialPointsData)])
     const [historyStep, setHistoryStep] = createSignal(0)
     const [points, setPoints] = createSignal(history()[0])
     const { setIsDrawing, isDrawing, settings } = createSettings()

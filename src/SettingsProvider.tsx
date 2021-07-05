@@ -1,4 +1,5 @@
-import { Accessor, Component, createContext, createSignal, useContext } from "solid-js"
+import { Accessor, createContext, createEffect, createSignal, useContext } from 'solid-js'
+import { getInitialData } from './utils'
 
 const defaultSettings = {
     size: 16,
@@ -20,7 +21,11 @@ const SettingsContext = createContext<SettingsContextValue>()
 
 export function SettingsProvider (props) {
     const [isDrawing, setIsDrawing] = createSignal(false)
-    const [settings, setSettings] = createSignal(defaultSettings)
+    const [settings, setSettings] = createSignal(getInitialData<Settings>('settings', defaultSettings))
+
+    createEffect(() => {
+        localStorage.setItem('settings', JSON.stringify(settings()))
+    })
 
     const store: SettingsContextValue = {
         isDrawing,

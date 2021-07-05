@@ -13,3 +13,17 @@ export function getSvgPathFromStroke(stroke: number[][]) {
     d.push("Z")
     return d.join(" ")
 }
+
+export function getInitialData<T>(localStorageName: string, defaultData: Record<any, any>): T {
+  const storageData = localStorage.getItem(localStorageName)
+
+  if (storageData) {
+      try {
+          return JSON.parse(storageData)
+      } catch (e) {
+          return defaultData
+      }
+  }
+
+  return defaultData
+}
