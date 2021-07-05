@@ -1,0 +1,4 @@
+.drawableSvg {
+    @apply fixed w-full h-full;
+    touch-action: none;
+}

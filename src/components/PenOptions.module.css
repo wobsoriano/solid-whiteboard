@@ -1,0 +1,7 @@
+.label {
+    @apply text-xs font-medium;
+}
+
+.range {
+    @apply w-full;
+}

@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+      @apply h-screen;
+      user-select: none;
+  }
+
+  .btn {
+      @apply p-2 text-gray-700 hover:text-gray-200 dark:text-gray-200 transform bg-gray-200 rounded dark:bg-gray-800 hover:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none;
+  }
+}
