@@ -22,6 +22,10 @@ export function createWhiteboard() {
     const handlePointerDown = (e: PointerEvent) => {
         e.preventDefault()
         setIsDrawing(true)
+        setPoints(prev => ({
+            ...prev,
+            currentPoints: [[e.pageX, e.pageY, e.pressure]]
+        }))        
     }
 
     const handlePointerMove = (e: PointerEvent) => {
