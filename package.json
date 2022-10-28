@@ -16,7 +16,7 @@
     "vite-plugin-solid": "^2.3.0"
   },
   "dependencies": {
-    "perfect-freehand": "^1.1.0",
-    "solid-js": "^1.4.8"
+    "perfect-freehand": "^1.2.0",
+    "solid-js": "^1.6.0"
   }
 }
