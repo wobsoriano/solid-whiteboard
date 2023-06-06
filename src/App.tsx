@@ -30,7 +30,7 @@ const App: Component = () => {
         handleRedo={handleRedo}
         handleReset={handleReset}
         handleUndo={handleUndo}
-        isDrawing={isDrawing}
+        isDrawing={isDrawing()}
       />
       <svg
       class={styles.drawableSvg}
