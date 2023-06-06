@@ -9,7 +9,7 @@ const initialPointsData = {
     currentPoints: null as [number, number, number][] | null
 }
 
-export function createWhiteboard() {
+export function useWhiteboard() {
     let history = [getInitialData<typeof initialPointsData>('points', initialPointsData)]
     let historyStep = 0
     const [points, setPoints] = createSignal(history[0])

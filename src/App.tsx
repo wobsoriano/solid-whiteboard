@@ -3,7 +3,7 @@ import { Component, createMemo, For } from 'solid-js'
 import Menu from './components/Menu'
 import { useSettings } from './SettingsProvider'
 import { useTheme } from './ThemeProvider'
-import { createWhiteboard } from './whiteboard'
+import { useWhiteboard } from './whiteboard'
 
 import styles from './App.module.css'
 
@@ -19,7 +19,7 @@ const App: Component = () => {
     handleUndo,
     paths,
     currentPath
-  } = createWhiteboard()
+  } = useWhiteboard()
   const [theme] = useTheme()
   const color = createMemo(() => theme() === 'dark' ? '#FFF' : '#000')
   const { isDrawing } = useSettings()
