@@ -1,5 +1,5 @@
 import { Accessor, Component, createSignal, Show, Match, Switch } from 'solid-js'
-import { createTheme } from '../ThemeProvider'
+import { useTheme } from '../ThemeProvider'
 import PenSettings from './PenSettings'
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Menu: Component<Props> = (props) => {
-  const [theme, { toggle }] = createTheme()
+  const [theme, { toggle }] = useTheme()
   const [isOpen, setIsOpen] = createSignal(false)
 
   return (

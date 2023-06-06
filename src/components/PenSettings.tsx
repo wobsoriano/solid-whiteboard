@@ -1,5 +1,5 @@
 import { Component } from 'solid-js'
-import { createSettings } from '../SettingsProvider'
+import { useSettings } from '../SettingsProvider'
 
 import style from './PenSettings.module.css'
 
@@ -9,12 +9,12 @@ type RangeEvent = InputEvent & {
 }
 
 const PenSettings: Component = () => {
-    const { settings, setSettings } = createSettings()
+    const { settings, setSettings } = useSettings()
 
     const handleChange = (e: RangeEvent) => {
         setSettings((prev) => ({
             ...prev,
-            [e.target.id]: e.target.value
+            [e.target.id]: e.currentTarget.value
         }))
     }
 

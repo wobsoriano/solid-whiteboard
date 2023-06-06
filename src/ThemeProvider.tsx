@@ -39,6 +39,6 @@ export function ThemeProvider(props) {
     return <ThemeContext.Provider value={store}>{props.children}</ThemeContext.Provider>;
 }
 
-export function createTheme() {
+export function useTheme() {
     return useContext(ThemeContext)
 }

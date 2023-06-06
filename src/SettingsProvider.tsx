@@ -37,6 +37,6 @@ export function SettingsProvider (props) {
     return <SettingsContext.Provider value={store}>{props.children}</SettingsContext.Provider>
 }
 
-export const createSettings = () => {
+export const useSettings = () => {
     return useContext(SettingsContext)
 }

@@ -1,8 +1,8 @@
 import { Component, createMemo, For } from 'solid-js'
 
 import Menu from './components/Menu'
-import { createSettings } from './SettingsProvider'
-import { createTheme } from './ThemeProvider'
+import { useSettings } from './SettingsProvider'
+import { useTheme } from './ThemeProvider'
 import { createWhiteboard } from './whiteboard'
 
 import styles from './App.module.css'
@@ -20,9 +20,9 @@ const App: Component = () => {
     paths,
     currentPath
   } = createWhiteboard()
-  const [theme] = createTheme()
+  const [theme] = useTheme()
   const color = createMemo(() => theme() === 'dark' ? '#FFF' : '#000')
-  const { isDrawing } = createSettings()
+  const { isDrawing } = useSettings()
 
   return (
     <>
